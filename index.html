@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://static.wixstatic.com/media/4e407c_29f47133b55f40f48e37aee4e2134cb8~mv2.png" type="image/png">
+    <title>Noble Health - Home Care</title>
+
+    <style>
+        /* Styles remain the same */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #2A5CAA 30%, #4CAF50 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .noble-logo {
+            max-width: 250px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #2A5CAA;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .form-step {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        .card-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .card-label {
+            position: relative;
+            display: block;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        .card-label:hover {
+            border-color: #4CAF50;
+        }
+
+        .card-label input[type="checkbox"] {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .loading-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .final-step {
+            display: none;
+        }
+
+        .final-step.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .final-step input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://static.wixstatic.com/media/4e407c_29f47133b55f40f48e37aee4e2134cb8~mv2.png" 
+             alt="Noble Health" 
+             class="noble-logo">
+
+        <!-- Step 1: ZIP Code -->
+        <div class="form-step active" id="step1">
+            <h1>Find Care in Your Area</h1>
+            <input type="text" id="zipcode" placeholder="Enter your ZIP code" maxlength="5">
+            <button onclick="nextStep()">Continue</button>
+        </div>
+
+        <!-- Step 2: Care recipient -->
+        <div class="form-step" id="step2">
+            <h1>Who needs care?</h1>
+            <div class="card-options">
+                <label class="card-label">
+                    Spouse/Partner
+                    <input type="checkbox" name="relationship" value="spouse">
+                </label>
+                <label class="card-label">
+                    Parent
+                    <input type="checkbox" name="relationship" value="parent">
+                </label>
+                <label class="card-label">
+                    Myself
+                    <input type="checkbox" name="relationship" value="self">
+                </label>
+                <label class="card-label">
+                    Other Family Member
+                    <input type="checkbox" name="relationship" value="other">
+                </label>
+            </div>
+            <button onclick="prevStep()">Back</button>
+            <button onclick="nextStep()">Continue</button>
+        </div>
+
+        <!-- Step 3: Service timing -->
+        <div class="form-step" id="step3">
+            <h1>When do you need care?</h1>
+            <div class="card-options">
+                <label class="card-label">
+                    Immediately
+                    <input type="checkbox" name="timing" value="immediately">
+                </label>
+                <label class="card-label">
+                    Within 7 days
+                    <input type="checkbox" name="timing" value="7days">
+                </label>
+                <label class="card-label">
+                    Within 30 days
+                    <input type="checkbox" name="timing" value="30days">
+                </label>
+                <label class="card-label">
+                    No rush
+                    <input type="checkbox" name="timing" value="norush">
+                </label>
+            </div>
+            <button onclick="prevStep()">Back</button>
+            <button onclick="nextStep()">Continue</button>
+        </div>
+
+        <!-- Step 4: Care reason -->
+        <div class="form-step" id="step4">
+            <h1>Why do you need care?</h1>
+            <div class="card-options">
+                <label class="card-label">
+                    Hospital Discharge
+                    <input type="checkbox" name="reason" value="hospital">
+                </label>
+                <label class="card-label">
+                    Alzheimer's/Dementia
+                    <input type="checkbox" name="reason" value="dementia">
+                </label>
+                <label class="card-label">
+                    24/7 Care
+                    <input type="checkbox" name="reason" value="24hcare">
+                </label>
+                <label class="card-label">
+                    Family Unable to Help
+                    <input type="checkbox" name="reason" value="family">
+                </label>
+                <label class="card-label">
+                    Lifestyle Change
+                    <input type="checkbox" name="reason" value="lifestyle">
+                </label>
+                <label class="card-label">
+                    Other
+                    <input type="checkbox" name="reason" value="other">
+                </label>
+            </div>
+            <button onclick="prevStep()">Back</button>
+            <button onclick="nextStep()">Continue</button>
+        </div>
+
+        <!-- Step 5: Care hours -->
+        <div class="form-step" id="step5">
+            <h1>How many hours of care do you need?</h1>
+            <div class="card-options">
+                <label class="card-label">
+                    Less than 10
+                    <input type="checkbox" name="hours" value="less10">
+                </label>
+                <label class="card-label">
+                    11-20
+                    <input type="checkbox" name="hours" value="11-20">
+                </label>
+                <label class="card-label">
+                    21-40
+                    <input type="checkbox" name="hours" value="21-40">
+                </label>
+                <label class="card-label">
+                    40+
+                    <input type="checkbox" name="hours" value="40plus">
+                </label>
+                <label class="card-label">
+                    Not sure
+                    <input type="checkbox" name="hours" value="unsure">
+                </label>
+            </div>
+            <button onclick="prevStep()">Back</button>
+            <button onclick="showLoadingScreen()">Submit</button>
+        </div>
+
+        <!-- Loading screen -->
+        <div class="loading-screen" id="loadingScreen">
+            <div style="text-align: center;">
+                <div class="loader"></div>
+                <div class="loading-text">Searching for options in your area...</div>
+            </div>
+        </div>
+
+        <!-- Final step: Contact form -->
+        <div class="final-step" id="finalStep">
+            <h2>You're on the right path!</h2>
+            <p>We've found home care providers in <strong id="location"></strong>.</p>
+            <p>Complete the form to see your options:</p>
+            <input type="text" id="firstName" placeholder="First Name">
+            <input type="text" id="lastName" placeholder="Last Name">
+            <input type="email" id="email" placeholder="Email">
+            <input type="tel" id="phone" placeholder="Phone Number">
+            <button onclick="submitFinalForm()">Get Results</button>
+        </div>
+
+        <!-- Thank you message -->
+        <div class="final-step" id="thankYouStep" style="text-align: center; display: none;">
+            <h2 style="color: #4CAF50; margin-bottom: 20px;">Thank You!</h2>
+            <p style="font-size: 18px; color: #2A5CAA;">A Noble Health representative will contact you soon.</p>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 5;
+
+        function nextStep() {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            currentStep++;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+        }
+
+        function prevStep() {
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            currentStep--;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+        }
+
+        function showLoadingScreen() {
+            document.getElementById('loadingScreen').style.display = 'flex';
+            setTimeout(() => {
+                document.getElementById('loadingScreen').style.display = 'none';
+                document.querySelector('.form-step.active').style.display = 'none';
+                document.getElementById('finalStep').classList.add('active');
+                updateLocation();
+            }, 3000);
+        }
+
+        function updateLocation() {
+            const zipcode = document.getElementById('zipcode').value;
+            const location = `Miami, FL ${zipcode}`;
+            document.getElementById('location').textContent = location;
+        }
+
+        function submitFinalForm() {
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                zipcode: document.getElementById('zipcode').value
+            };
+            console.log('Data sent:', formData);
+            document.getElementById('finalStep').style.display = 'none';
+            document.getElementById('thankYouStep').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
