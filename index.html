@@ -23,8 +23,10 @@
             box-shadow: 0 5px 25px rgba(0,0,0,0.1);
             width: 100%;
             max-width: 800px;
-            padding: 20px;
+            padding: 40px;
             margin: 15px;
+            position: relative;
+            overflow: hidden;
         }
 
         .noble-logo {
@@ -52,51 +54,73 @@
             display: block;
         }
 
+        /* Zip Code Section */
+        .zip-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .zip-section input[type="text"] {
+            width: 150px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .zip-section button {
+            padding: 12px 24px;
+            font-size: 16px;
+        }
+
         /* Card options */
         .card-options {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
             margin: 30px 0;
         }
 
         .card-label {
             position: relative;
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
             padding: 20px;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             background: white;
+            min-height: 80px;
         }
 
         .card-label:hover {
             border-color: #4CAF50;
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 8px 20px rgba(76,175,80,0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76,175,80,0.1);
+        }
+
+        .card-label.selected {
+            border-color: #4CAF50;
+            background: #4CAF50;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(76,175,80,0.3);
         }
 
         .card-label input[type="checkbox"] {
             position: absolute;
             opacity: 0;
-        }
-
-        .card-label input[type="checkbox"]:checked + span {
-            color: #4CAF50;
-            font-weight: bold;
-        }
-
-        .card-label input[type="checkbox"]:checked + span::before {
-            content: '✓';
-            position: absolute;
-            right: 20px;
-            color: #4CAF50;
-        }
-
-        .card-label.selected {
-            border-color: #4CAF50;
-            background: #f0fff0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            left: 0;
+            top: 0;
         }
 
         /* Buttons */
@@ -105,7 +129,7 @@
             gap: 10px;
             justify-content: center;
             flex-wrap: wrap;
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         button {
@@ -117,51 +141,19 @@
             cursor: pointer;
             font-size: 16px;
             min-width: 120px;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.3s;
             position: relative;
             overflow: hidden;
-        }
-
-        button::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 300%;
-            height: 300%;
-            background: radial-gradient(circle, rgba(255,255,255,0.3) 10%, transparent 10.01%);
-            transform: translate(-50%, -50%) scale(0);
-            transition: transform 0.5s, opacity 1s;
-            pointer-events: none;
-        }
-
-        button:active::after {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 0;
-            transition: 0s;
-        }
-
-        button:hover {
-            background: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(76,175,80,0.3);
         }
 
         button.back {
             background: #6c757d;
         }
 
-        /* Input fields */
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"] {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 16px;
-            box-sizing: border-box;
+        button:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76,175,80,0.3);
         }
 
         /* Loading screen */
@@ -178,88 +170,136 @@
             z-index: 1000;
         }
 
-        /* Final steps */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 4px solid #4CAF50;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Final step: Contact form */
         .final-step {
-            display: none;
             text-align: center;
         }
 
-        .final-step.active {
-            display: block;
-            animation: fadeIn 0.5s;
+        .final-step h2 {
+            color: #2A5CAA;
+            font-size: 28px;
+            margin-bottom: 20px;
         }
 
+        .final-step p {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .final-step input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .final-step button {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .final-step button:hover {
+            background: #45a049;
+        }
+
+        /* Thank you message */
         #thankYouStep {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
             text-align: center;
-            padding: 40px 20px;
+            padding: 40px;
+        }
+
+        #thankYouStep.active {
+            display: flex;
+            animation: fadeIn 0.5s;
         }
 
         #thankYouStep h2 {
             color: #4CAF50;
-            font-size: clamp(24px, 5vw, 32px);
+            font-size: 36px;
             margin-bottom: 20px;
         }
 
         #thankYouStep p {
             color: #2A5CAA;
-            font-size: clamp(16px, 4vw, 18px);
-            line-height: 1.5;
+            font-size: 20px;
+            max-width: 600px;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.03); }
-            100% { transform: scale(1); }
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .final-step h2 {
+                font-size: 24px;
+            }
+
+            .final-step p {
+                font-size: 16px;
+            }
+
+            #thankYouStep h2 {
+                font-size: 28px;
+            }
+
+            #thankYouStep p {
+                font-size: 18px;
+            }
         }
 
         @media (max-width: 480px) {
             .container {
-                padding: 10px;
-                margin: 5px;
-                border-radius: 10px;
-            }
-
-            .card-label {
                 padding: 15px;
-                margin: 5px 0;
             }
 
-            button {
-                width: 100%;
-                margin: 5px 0;
-                padding: 12px 24px;
-                font-size: 15px;
+            .final-step h2 {
+                font-size: 22px;
             }
 
-            .button-group {
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            h1 {
-                font-size: 24px;
-                margin-bottom: 10px;
-            }
-        }
-
-        @media (max-width: 320px) {
-            .container {
-                padding: 8px;
-                margin: 2px;
-            }
-
-            .card-label {
-                padding: 10px;
-            }
-
-            button {
-                padding: 10px 20px;
+            .final-step p {
                 font-size: 14px;
+            }
+
+            #thankYouStep h2 {
+                font-size: 24px;
+            }
+
+            #thankYouStep p {
+                font-size: 16px;
             }
         }
     </style>
@@ -273,8 +313,10 @@
         <!-- Step 1: ZIP Code -->
         <div class="form-step active" id="step1">
             <h1>Find Care in Your Area</h1>
-            <input type="text" id="zipcode" placeholder="Enter your ZIP code" maxlength="5">
-            <button onclick="nextStep()">Continue</button>
+            <div class="zip-section">
+                <input type="text" id="zipcode" placeholder="Enter ZIP code" maxlength="5">
+                <button onclick="nextStep()">Continue</button>
+            </div>
         </div>
 
         <!-- Step 2: Care recipient -->
@@ -282,24 +324,26 @@
             <h1>Who needs care?</h1>
             <div class="card-options">
                 <label class="card-label">
-                    Spouse/Partner
                     <input type="checkbox" name="relationship" value="spouse">
+                    Spouse/Partner
                 </label>
                 <label class="card-label">
-                    Parent
                     <input type="checkbox" name="relationship" value="parent">
+                    Parent
                 </label>
                 <label class="card-label">
-                    Myself
                     <input type="checkbox" name="relationship" value="self">
+                    Myself
                 </label>
                 <label class="card-label">
-                    Other Family Member
                     <input type="checkbox" name="relationship" value="other">
+                    Other Family Member
                 </label>
             </div>
-            <button onclick="prevStep()">Back</button>
-            <button onclick="nextStep()">Continue</button>
+            <div class="button-group">
+                <button class="back" onclick="prevStep()">Back</button>
+                <button onclick="nextStep()">Continue</button>
+            </div>
         </div>
 
         <!-- Step 3: Service timing -->
@@ -307,24 +351,26 @@
             <h1>When do you need care?</h1>
             <div class="card-options">
                 <label class="card-label">
-                    Immediately
                     <input type="checkbox" name="timing" value="immediately">
+                    Immediately
                 </label>
                 <label class="card-label">
-                    Within 7 days
                     <input type="checkbox" name="timing" value="7days">
+                    Within 7 days
                 </label>
                 <label class="card-label">
-                    Within 30 days
                     <input type="checkbox" name="timing" value="30days">
+                    Within 30 days
                 </label>
                 <label class="card-label">
-                    No rush
                     <input type="checkbox" name="timing" value="norush">
+                    No rush
                 </label>
             </div>
-            <button onclick="prevStep()">Back</button>
-            <button onclick="nextStep()">Continue</button>
+            <div class="button-group">
+                <button class="back" onclick="prevStep()">Back</button>
+                <button onclick="nextStep()">Continue</button>
+            </div>
         </div>
 
         <!-- Step 4: Care reason -->
@@ -332,32 +378,34 @@
             <h1>Why do you need care?</h1>
             <div class="card-options">
                 <label class="card-label">
-                    Hospital Discharge
                     <input type="checkbox" name="reason" value="hospital">
+                    Hospital Discharge
                 </label>
                 <label class="card-label">
-                    Alzheimer's/Dementia
                     <input type="checkbox" name="reason" value="dementia">
+                    Alzheimer's/Dementia
                 </label>
                 <label class="card-label">
-                    24/7 Care
                     <input type="checkbox" name="reason" value="24hcare">
+                    24/7 Care
                 </label>
                 <label class="card-label">
-                    Family Unable to Help
                     <input type="checkbox" name="reason" value="family">
+                    Family Unable to Help
                 </label>
                 <label class="card-label">
-                    Lifestyle Change
                     <input type="checkbox" name="reason" value="lifestyle">
+                    Lifestyle Change
                 </label>
                 <label class="card-label">
-                    Other
                     <input type="checkbox" name="reason" value="other">
+                    Other
                 </label>
             </div>
-            <button onclick="prevStep()">Back</button>
-            <button onclick="nextStep()">Continue</button>
+            <div class="button-group">
+                <button class="back" onclick="prevStep()">Back</button>
+                <button onclick="nextStep()">Continue</button>
+            </div>
         </div>
 
         <!-- Step 5: Care hours -->
@@ -365,28 +413,30 @@
             <h1>How many hours of care do you need?</h1>
             <div class="card-options">
                 <label class="card-label">
-                    Less than 10
                     <input type="checkbox" name="hours" value="less10">
+                    Less than 10
                 </label>
                 <label class="card-label">
-                    11-20
                     <input type="checkbox" name="hours" value="11-20">
+                    11-20
                 </label>
                 <label class="card-label">
-                    21-40
                     <input type="checkbox" name="hours" value="21-40">
+                    21-40
                 </label>
                 <label class="card-label">
-                    40+
                     <input type="checkbox" name="hours" value="40plus">
+                    40+
                 </label>
                 <label class="card-label">
-                    Not sure
                     <input type="checkbox" name="hours" value="unsure">
+                    Not sure
                 </label>
             </div>
-            <button onclick="prevStep()">Back</button>
-            <button onclick="showLoadingScreen()">Submit</button>
+            <div class="button-group">
+                <button class="back" onclick="prevStep()">Back</button>
+                <button onclick="showLoadingScreen()">Submit</button>
+            </div>
         </div>
 
         <!-- Loading screen -->
@@ -398,27 +448,37 @@
         </div>
 
         <!-- Final step: Contact form -->
-        <div class="final-step" id="finalStep">
+        <div class="form-step final-step" id="finalStep">
             <h2>You're on the right path!</h2>
-            <p>We've found home care providers in <strong id="location"></strong>.</p>
-            <p>Complete the form to see your options:</p>
-            <input type="text" id="firstName" placeholder="First Name">
-            <input type="text" id="lastName" placeholder="Last Name">
-            <input type="email" id="email" placeholder="Email">
-            <input type="tel" id="phone" placeholder="Phone Number">
-            <button onclick="submitFinalForm()">Get Results</button>
+            <p>We've compiled a preliminary list of home care providers in <strong>Miami, FL 33157</strong> that we know and love.</p>
+            <p>Complete the form below to access your options:</p>
+            <input type="text" id="firstName" placeholder="First name (e.g. John)">
+            <input type="text" id="lastName" placeholder="Last name (e.g. Smith)">
+            <input type="email" id="email" placeholder="Email (e.g. john.smith@gmail.com)">
+            <input type="tel" id="phone" placeholder="Phone number (e.g. 917-251-3387)">
+            <button onclick="submitFinalForm()">Get My Results</button>
+            <p style="font-size: 12px; color: #888; margin-top: 20px;">
+                By calling APPA you are auding yourself of our core service which is providing customized referrals to assisting living and home care facilities who will contact you by phone (including text, which may be audio details) to help you decide which facility best meets your needs. or the needs of your loved one, tour cornerers and a controlled to using our services, but you cannot provide you with our core service -a customized referral -without sharing your contact information with the facilities to which you have asked to be referred. By clicking Call Me, See Listings or Submit you agree to or Follow Policy Please visit our name of Use for information about our privacy practices.
+            </p>
         </div>
 
         <!-- Thank you message -->
-        <div class="final-step" id="thankYouStep" style="text-align: center; display: none;">
-            <h2 style="color: #4CAF50; margin-bottom: 20px;">Thank You!</h2>
-            <p style="font-size: 18px; color: #2A5CAA;">A Noble Health representative will contact you soon.</p>
+        <div class="form-step" id="thankYouStep">
+            <h2>Thank You!</h2>
+            <p>A Noble Health representative will contact you soon.</p>
         </div>
     </div>
 
     <script>
         let currentStep = 1;
         const totalSteps = 5;
+
+        // Initialize checkbox functionality
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                this.parentElement.classList.toggle('selected', this.checked);
+            });
+        });
 
         function nextStep() {
             document.getElementById(`step${currentStep}`).classList.remove('active');
@@ -436,7 +496,7 @@
             document.getElementById('loadingScreen').style.display = 'flex';
             setTimeout(() => {
                 document.getElementById('loadingScreen').style.display = 'none';
-                document.querySelector('.form-step.active').style.display = 'none';
+                document.querySelector('.form-step.active').classList.remove('active');
                 document.getElementById('finalStep').classList.add('active');
                 updateLocation();
             }, 3000);
@@ -457,8 +517,13 @@
                 zipcode: document.getElementById('zipcode').value
             };
             console.log('Data sent:', formData);
+            
+            // Ocultar formulario
+            document.getElementById('finalStep').classList.remove('active');
             document.getElementById('finalStep').style.display = 'none';
-            document.getElementById('thankYouStep').style.display = 'block';
+            
+            // Mostrar mensaje final
+            document.getElementById('thankYouStep').classList.add('active');
         }
     </script>
 </body>
